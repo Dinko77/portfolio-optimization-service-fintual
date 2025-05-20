@@ -39,8 +39,8 @@ El criterio de optimalidad es **maximizar el rendimiento esperado** sujeto a:
 
 1. Clonar este repositorio
 ```bash
-git clone https://github.com/tu-usuario/portfolio-optimization-service.git
-cd portfolio-optimization-service
+git clone https://github.com/dinko-damjanic11/portfolio-optimization-service-fintual.git
+cd portfolio-optimization-service-fintual
 ```
 
 2. Crear un entorno virtual e instalar dependencias
@@ -52,21 +52,21 @@ pip install -r requirements.txt
 
 3. Ejecutar el servicio
 ```bash
-uvicorn main:app --reload
+uvicorn main:app --host 0.0.0.0 --port 8080
 ```
 
-El servicio estará disponible en `http://localhost:8000`
+El servicio estará disponible en `http://localhost:8080`
 
 ## Ejecución con Docker
 
 1. Construir la imagen
 ```bash
-docker build -t portfolio-optimization-service .
+docker build -t portfolio-optimization-service-fintual .
 ```
 
 2. Ejecutar el contenedor
 ```bash
-docker run -p 8000:8000 portfolio-optimization-service
+docker run -p 8080:8080 portfolio-optimization-service-fintual
 ```
 
 ## Uso de la API
@@ -84,21 +84,21 @@ POST /optimize-portfolio
 
 #### Ejemplo de solicitud con curl:
 ```bash
-curl -X POST http://localhost:8000/optimize-portfolio \
+curl -X POST https://portfolio-optimization-service-fintual-463275977043.us-central1.run.app/optimize-portfolio \
 -H "Content-Type: multipart/form-data" \
 -F "file=@returns.csv" \
--F "risk_level=1.0" \
--F "max_weight=0.15"
+-F "risk_level=0.2" \
+-F "max_weight=0.3"
 ```
 
 #### Respuesta (formato JSON):
 ```json
 {
   "optimal_portfolio": {
-    "ticker_1": 0.15,
-    "ticker_2": 0.1,
-    "ticker_3": 0.15,
-    ...
+    "ticker_1": 0.25,
+    "ticker_2": 0.30,
+    "ticker_3": 0.20,
+    "ticker_4": 0.25
   }
 }
 ```
@@ -106,18 +106,25 @@ curl -X POST http://localhost:8000/optimize-portfolio \
 ## Documentación de la API
 
 La documentación interactiva de la API está disponible en:
-- Swagger UI: `http://localhost:8000/docs`
-- ReDoc: `http://localhost:8000/redoc`
+- Swagger UI: `https://portfolio-optimization-service-fintual-463275977043.us-central1.run.app/docs`
+- ReDoc: `https://portfolio-optimization-service-fintual-463275977043.us-central1.run.app/redoc`
 
 ## Despliegue
 
-El servicio puede desplegarse en plataformas como:
-- Heroku
-- Google Cloud Run
-- AWS Lambda + API Gateway
-- Digital Ocean App Platform
+El servicio está actualmente desplegado en Google Cloud Run y es accesible públicamente en:
+```
+https://portfolio-optimization-service-fintual-463275977043.us-central1.run.app
+```
 
-Para desplegar en alguna de estas plataformas, consulta la documentación específica de cada una.
+Para hacer un despliegue similar:
+1. Crear un proyecto en Google Cloud
+2. Habilitar las APIs necesarias (Cloud Run, Cloud Build)
+3. Configurar el despliegue continuo desde GitHub
+4. Asegurar que la aplicación escuche en el puerto 8080 (requisito de Cloud Run)
+
+## Autor
+
+Dinko Damjanic
 
 ## Licencia
 
